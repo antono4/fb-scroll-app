@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FB Reels - Video Populer Facebook</title>
+    <title>FB Reels - Video Populer TikTok</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1877F2;
-            --primary-dark: #166FE5;
-            --secondary: #F0F2F5;
+            --primary: #FF0050;
+            --primary-dark: #E00048;
+            --secondary: #00F2EA;
             --text-primary: #FFFFFF;
             --text-secondary: #BCC0C4;
             --bg-dark: #000000;
             --bg-card: #1C1E21;
-            --gradient-start: #1877F2;
-            --gradient-end: #6942F5;
+            --gradient-start: #FF0050;
+            --gradient-end: #00F2EA;
             --accent-hot: #FF6B6B;
             --accent-like: #E91E63;
-            --shadow-glow: rgba(24, 119, 242, 0.4);
+            --shadow-glow: rgba(255, 0, 80, 0.4);
         }
 
         * {
@@ -874,30 +874,90 @@
             background: rgba(105, 66, 245, 0.2);
             color: #6942F5;
         }
+
+        /* Music Info */
+        .music-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .music-info svg {
+            flex-shrink: 0;
+        }
+
+        .music-info marquee {
+            flex: 1;
+            white-space: nowrap;
+        }
+
+        /* TikTok API Status */
+        .api-status {
+            position: fixed;
+            top: 4rem;
+            right: 1rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 242, 234, 0.2);
+            border: 1px solid var(--secondary);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--secondary);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .api-status.connected {
+            background: rgba(0, 242, 234, 0.2);
+            color: var(--secondary);
+        }
+
+        .api-status.disconnected {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: var(--accent-hot);
+            color: var(--accent-hot);
+        }
+
+        .api-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
     </style>
 </head>
 <body>
     <div class="app-container">
         <!-- Loading Screen -->
         <div class="loading-screen" id="loadingScreen">
-            <div class="loading-logo">FB Reels</div>
+            <div class="loading-logo">
+                <svg viewBox="0 0 128 128" width="80" height="80">
+                    <path fill="#FF0050" d="M38.8 14.5c-2.8 0-5.1 2.3-5.1 5.1v48.7c0 2.8 2.3 5.1 5.1 5.1s5.1-2.3 5.1-5.1V19.6c0-2.8-2.3-5.1-5.1-5.1z"/>
+                    <path fill="#00F2EA" d="M53.6 29.1c-3-1.7-6.4-2.6-10-2.6-12.4 0-22.4 10-22.4 22.4s10 22.4 22.4 22.4 22.4-10 22.4-22.4V19.6c0-1-.2-1.9-.5-2.8l-3.3 6.2c-.7 1.4-2.1 2.3-3.7 2.3-.5 0-1-.1-1.4-.3-2.1-.9-3-3.3-2.1-5.4l3.3-6.2c-.8-1.4-2.2-2.3-3.8-2.3h-.9z"/>
+                    <path fill="#000" d="M43.6 48.9c-5.5 0-9.9 4.4-9.9 9.9s4.4 9.9 9.9 9.9 9.9-4.4 9.9-9.9-4.4-9.9-9.9-9.9zm0 16c-3.4 0-6.1-2.7-6.1-6.1s2.7-6.1 6.1-6.1 6.1 2.7 6.1 6.1-2.7 6.1-6.1 6.1z"/>
+                    <path fill="#FF0050" d="M76.5 24.7v13.2c-1.4-1-3.1-1.6-4.9-1.6-5.5 0-9.9 4.4-9.9 9.9s4.4 9.9 9.9 9.9 9.9-4.4 9.9-9.9v-7.5l8.4 8.4v5.4c0 2.8 2.3 5.1 5.1 5.1s5.1-2.3 5.1-5.1V24.7c0-2.8-2.3-5.1-5.1-5.1s-5.1 2.3-5.1 5.1v5.4l-8.4-8.4v-1.3c0-2.8-2.3-5.1-5.1-5.1s-5.1 2.3-5.1 5.1v.3z"/>
+                    <path fill="#000" d="M71.6 38.2c0 3.4 2.7 6.1 6.1 6.1s6.1-2.7 6.1-6.1-2.7-6.1-6.1-6.1-6.1 2.7-6.1 6.1z"/>
+                </svg>
+                TikTok Reels
+            </div>
             <div class="loading-spinner"></div>
-            <div class="loading-text">Memuat video populer...</div>
+            <div class="loading-text">Memuat video populer dari TikTok...</div>
         </div>
 
         <!-- Header -->
         <header class="header">
             <div class="header-title">
-                <svg viewBox="0 0 24 24" fill="url(#fbGradient)">
-                    <defs>
-                        <linearGradient id="fbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#1877F2"/>
-                            <stop offset="100%" style="stop-color:#6942F5"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                <svg viewBox="0 0 128 128" width="32" height="32">
+                    <path fill="#FF0050" d="M38.8 14.5c-2.8 0-5.1 2.3-5.1 5.1v48.7c0 2.8 2.3 5.1 5.1 5.1s5.1-2.3 5.1-5.1V19.6c0-2.8-2.3-5.1-5.1-5.1z"/>
+                    <path fill="#00F2EA" d="M53.6 29.1c-3-1.7-6.4-2.6-10-2.6-12.4 0-22.4 10-22.4 22.4s10 22.4 22.4 22.4 22.4-10 22.4-22.4V19.6c0-1-.2-1.9-.5-2.8l-3.3 6.2c-.7 1.4-2.1 2.3-3.7 2.3-.5 0-1-.1-1.4-.3-2.1-.9-3-3.3-2.1-5.4l3.3-6.2c-.8-1.4-2.2-2.3-3.8-2.3h-.9z"/>
                 </svg>
-                FB Reels
+                TikTok Reels
             </div>
             <div class="header-tabs">
                 <button class="header-tab active">Untuk Anda</button>
@@ -915,6 +975,12 @@
                 <div class="sound-bar"></div>
             </div>
             <span class="sound-text" id="soundText">Suara</span>
+        </div>
+
+        <!-- TikTok API Status -->
+        <div class="api-status disconnected" id="apiStatus">
+            <span class="api-status-dot"></span>
+            <span id="apiStatusText">TikTok API Demo</span>
         </div>
 
         <!-- Category Badge -->
@@ -991,14 +1057,17 @@
     </div>
 
     <script>
-        // Sample video data (simulating popular Facebook videos)
+        // TikTok API Configuration
+        const TIKTOK_CLIENT_KEY = 'awzbkzf5vcgvbqy3';
+        
+        // Sample video data (simulating popular TikTok videos)
         const videos = [
             {
                 id: 1,
                 videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
                 thumbnail: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400',
                 avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100',
-                creatorName: 'Tech Indonesia',
+                creatorName: '@tech_indo',
                 isVerified: true,
                 postTime: '2 jam yang lalu',
                 description: 'Tutorial coding React dari dasar! 🔥 #programming #coding #reactjs',
@@ -1007,71 +1076,76 @@
                 comments: '8.2K',
                 shares: '15.7K',
                 category: '🔥 Trending',
-                views: '1.2M'
+                views: '1.2M',
+                music: 'Original Sound - Tech Indonesia'
             },
             {
                 id: 2,
                 videoUrl: 'https://www.w3schools.com/html/movie.mp4',
                 thumbnail: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400',
                 avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100',
-                creatorName: 'Sarah Developer',
+                creatorName: '@sarah_dev',
                 isVerified: true,
                 postTime: '5 jam yang lalu',
-                description: 'Beautiful sunset coding session 🌅 What a productive day! #developer #coding #sunset',
+                description: 'Beautiful sunset coding session 🌅 #developer #coding #sunset',
                 hashtags: ['#developer', '#coding', '#sunset', '#productivity'],
                 likes: '89.2K',
                 comments: '4.5K',
                 shares: '2.1K',
                 category: '✨ FYP',
-                views: '890K'
+                views: '890K',
+                music: 'Lo-fi beats - chill vibes'
             },
             {
                 id: 3,
                 videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
                 thumbnail: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400',
                 avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100',
-                creatorName: 'Code Master',
+                creatorName: '@code_master',
                 isVerified: false,
                 postTime: '1 hari yang lalu',
-                description: 'Clean code vs messy code - which one are you? 🤔 #cleancode #programming #software',
+                description: 'Clean code vs messy code 🤔 #cleancode #programming #tips',
                 hashtags: ['#cleancode', '#programming', '#software', '#tips'],
                 likes: '234K',
                 comments: '12.1K',
                 shares: '8.9K',
                 category: '💡 Tips',
-                views: '2.1M'
+                views: '2.1M',
+                music: 'Trap beat - hard bass'
             },
             {
                 id: 4,
                 videoUrl: 'https://www.w3schools.com/html/movie.mp4',
                 thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400',
                 avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100',
-                creatorName: 'Web Dev Pro',
+                creatorName: '@webdev_pro',
                 isVerified: true,
                 postTime: '3 hari yang lalu',
-                description: 'Building a complete website in 60 seconds! 🚀 Full tutorial on my profile #webdevelopment #build #website',
+                description: 'Building a complete website in 60 seconds! 🚀 #webdevelopment #build',
                 hashtags: ['#webdevelopment', '#build', '#website', '#tutorial'],
                 likes: '567K',
                 comments: '23.4K',
                 shares: '45.2K',
                 category: '🚀 Viral',
-                views: '5.6M'
+                views: '5.6M',
+                music: 'Trending sound 2024'
             },
             {
                 id: 5,
                 videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
                 thumbnail: 'https://images.unsplash.com/photo-1550439062-609e1531270e?w=400',
                 avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100',
-                creatorName: 'Digital Creator',
+                creatorName: '@digital_creator',
                 isVerified: true,
                 postTime: '4 jam yang lalu',
-                description: 'My workspace tour! ✨ What tools do you use? #workspace #productivity #setup',
+                description: 'My workspace tour! ✨ #workspace #productivity #setup',
                 hashtags: ['#workspace', '#productivity', '#setup', '#tech'],
                 likes: '156K',
                 comments: '7.8K',
                 shares: '3.4K',
                 category: '🏠 Setup',
-                views: '1.5M'
+                views: '1.5M',
+                music: 'Aesthetic - soft piano'
             }
         ];
 
@@ -1079,6 +1153,7 @@
         let isMuted = false;
         let isPlaying = true;
         let hasInteracted = false;
+        let tiktokAccessToken = null;
 
         // DOM Elements
         const loadingScreen = document.getElementById('loadingScreen');
@@ -1094,6 +1169,85 @@
         const soundText = document.getElementById('soundText');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const playIcon = document.getElementById('playIcon');
+
+        // TikTok API Functions
+        async function initTikTokAPI() {
+            const apiStatus = document.getElementById('apiStatus');
+            const apiStatusText = document.getElementById('apiStatusText');
+            
+            // Check for saved access token
+            const savedToken = localStorage.getItem('tiktok_access_token');
+            if (savedToken) {
+                tiktokAccessToken = savedToken;
+                apiStatus.classList.remove('disconnected');
+                apiStatus.classList.add('connected');
+                apiStatusText.textContent = 'TikTok API Connected';
+                showToast('TikTok API Connected ✓');
+                return;
+            }
+            
+            // For demo purposes, show that client key is configured
+            apiStatus.classList.remove('connected');
+            apiStatus.classList.add('disconnected');
+            apiStatusText.textContent = `Client Key: ${TIKTOK_CLIENT_KEY.substring(0, 8)}...`;
+            console.log('TikTok Client Key configured:', TIKTOK_CLIENT_KEY);
+            showToast('TikTok Client Key Loaded');
+        }
+
+        async function fetchTikTokVideos() {
+            if (!tiktokAccessToken) {
+                console.log('No access token - using sample data');
+                return videos;
+            }
+
+            try {
+                const response = await fetch('https://open.tiktokapis.com/v2/video/list/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${tiktokAccessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        max_count: 10,
+                        fields: ['id', 'video_description', 'create_time', 'share_count', 'like_count', 'comment_count', 'view_count']
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch TikTok videos');
+                }
+
+                const data = await response.json();
+                return data.data.videos.map(video => ({
+                    id: video.id,
+                    videoUrl: `https://www.tiktok.com/@user/video/${video.id}`,
+                    description: video.video_description,
+                    likes: formatNumber(video.like_count),
+                    comments: formatNumber(video.comment_count),
+                    shares: formatNumber(video.share_count),
+                    views: formatNumber(video.view_count),
+                    postTime: formatTimeAgo(video.create_time)
+                }));
+            } catch (error) {
+                console.error('TikTok API Error:', error);
+                showToast('Using sample data');
+                return videos;
+            }
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        function formatTimeAgo(timestamp) {
+            const seconds = Math.floor(Date.now() / 1000 - timestamp);
+            if (seconds < 60) return 'Baru saja';
+            if (seconds < 3600) return Math.floor(seconds / 60) + ' menit yang lalu';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + ' jam yang lalu';
+            return Math.floor(seconds / 86400) + ' hari yang lalu';
+        }
 
         // Create video cards
         function createVideoCards() {
@@ -1128,6 +1282,14 @@
                         <div class="hashtags">
                             ${video.hashtags.map(tag => `<span class="hashtag">${tag}</span>`).join('')}
                         </div>
+                        ${video.music ? `
+                        <div class="music-info">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                            </svg>
+                            <marquee scrollamount="2">${video.music}</marquee>
+                        </div>
+                        ` : ''}
                         <div class="engagement-tags">
                             <span class="engagement-tag hot">🔥 ${video.views}</span>
                             <span class="engagement-tag trending">⚡ ${video.category}</span>
@@ -1358,9 +1520,10 @@
         });
 
         // Initialize
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
+                initTikTokAPI();
                 createVideoCards();
                 
                 // Start playing first video
